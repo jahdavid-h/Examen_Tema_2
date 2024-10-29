@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import requests
+import random
 
 class Registros:
     def __init__(self, treeview):
@@ -81,11 +82,31 @@ class Registros:
             registro['Ejemplares_Disponibles']
         ))
 
+    def generar_dato_random(self):
+        try:
+            url = "https://671be43c2c842d92c381a619.mockapi.io/test"
+            response = requests.get(url)
+            response.raise_for_status()
+
+            data = response.json()
+            if data:
+                # Selecciona un registro aleatorio
+                registro_aleatorio = random.choice(data)
+
+                # Limpiar el Treeview y mostrar el registro aleatorio
+                for i in self.__treeview.get_children():
+                    self.__treeview.delete(i)
+                self.__mostrar_registro(registro_aleatorio)
+            else:
+                self.__treeview.insert("", "end", values=("No se encontraron registros.",))
+        except requests.exceptions.RequestException as e:
+            self.__treeview.insert("", "end", values=(f"Error: {e}",))
+
 class App:
     def __init__(self, root):
         self.__root = root
         self.__root.title("Examen Tema_2")
-        self.__root.geometry("700x420")
+        self.__root.geometry("750x420")
         self.__root.resizable(width=False, height=False)
 
         # Treeview para mostrar los registros
@@ -121,11 +142,14 @@ class App:
 
         # Botón para salir
         boton_salir = tk.Button(root, text="Salir", command=self.__root.quit)
-        boton_salir.grid(row=5, column=0, pady=5)
+        boton_salir.grid(row=6, column=0, pady=5)
 
         # Configurar la expansión de las filas y columnas
         root.grid_rowconfigure(0, weight=1)  # Hacer que la primera fila (Treeview) se expanda
         root.grid_columnconfigure(0, weight=1)  # Hacer que la primera columna (donde están los botones) se expanda
+
+        boton_random = tk.Button(root, text="Generar Registro Aleatorio", command=self.__generar_dato_random)
+        boton_random.grid(row=5, column=0, pady=5)
 
     def __obtener_registros(self):
         self.__controller.obtener_registros()
@@ -136,3 +160,6 @@ class App:
 
     def __mostrar_ultimo_registro(self):
         self.__controller.mostrar_ultimo_registro()
+
+    def __generar_dato_random(self):
+        self.__controller.generar_dato_random()
