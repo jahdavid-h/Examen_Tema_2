@@ -89,28 +89,26 @@ def iniciar_app():
 
     scrollbar = ttk.Scrollbar(root, orient="vertical", command=treeview.yview)
     treeview.configure(yscrollcommand=scrollbar.set)
-    scrollbar.grid(row=0, column=1, sticky="ns")  # Coloca la barra de desplazamiento al lado del Treeview
+    scrollbar.grid(row=0, column=1, sticky="ns")
 
-    # Entrada y botón para buscar registros
     criterio_entry = tk.Entry(root)
     criterio_entry.grid(row=1, column=0, pady=5)
     boton_buscar = tk.Button(root, text="Buscar Registros", command=lambda: buscar_registros(treeview, criterio_entry.get()))
     boton_buscar.grid(row=2, column=0, pady=5)
 
-    # Botón para generar un registro aleatorio
     boton_random = tk.Button(root, text="Generar Registro Aleatorio", command=lambda: generar_dato_random(treeview))
     boton_random.grid(row=3, column=0, pady=5)
 
-    # Botón para salir
+    boton_actualizar = tk.Button(root, text="Actualizar Registros", command=lambda: obtener_registros(treeview))
+    boton_actualizar.grid(row=4, column=0, pady=5)
+
     boton_salir = tk.Button(root, text="Salir", command=root.quit)
-    boton_salir.grid(row=4, column=0, pady=5)
+    boton_salir.grid(row=5, column=0, pady=5)
 
     obtener_registros(treeview)
 
-    # Configurar la expansión de las filas y columnas
     root.grid_rowconfigure(0, weight=1)
     root.grid_columnconfigure(0, weight=1)
-
     root.mainloop()
 
 iniciar_app()
