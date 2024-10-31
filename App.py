@@ -44,8 +44,8 @@ class App:
         self.controller.obtener_registros()
 
         # Configurar la expansión de las filas y columnas
-        root.grid_rowconfigure(0, weight=1)  # Hacer que la primera fila (Treeview) se expanda
-        root.grid_columnconfigure(0, weight=1)  # Hacer que la primera columna (donde están los botones) se expanda
+        root.grid_rowconfigure(0, weight=1)
+        root.grid_columnconfigure(0, weight=1)
 
     def buscar_registros(self):
         criterio = self.criterio_entry.get()
